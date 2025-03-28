@@ -1,3 +1,11 @@
+
 h1 {
   color: blue;
 }
+/* Если стили мешают */
+a {
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+
+
