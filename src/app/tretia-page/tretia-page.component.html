@@ -1,1 +1,30 @@
-<p>tretia-page works!</p>
+<body>
+  <form class="form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="title">Добро пожаловать</div>
+    <div class="input-container ic1">
+      <div class="titleInput">E-mail</div>
+      <input
+        formControlName="email"
+        title="Email"
+        id="Email"
+        class="input"
+        type="text"
+        placeholder="Email"
+      />
+      <div class="cut"></div>
+    </div>
+    <div class="input-container ic2">
+      <div class="titleInput">Пароль</div>
+      <input
+        formControlName="password"
+        title="Пароль1"
+        id="password"
+        class="input"
+        type="text"
+        placeholder="Пароль"
+      />
+      <div class="cut cut-short"></div>
+      <button type="submit" class="submit">Войти</button>
+    </div>
+  </form>
+</body>
