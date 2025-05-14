@@ -1,0 +1,13 @@
+<div class="pagination">
+  <button
+    class="pagination-button"
+    (click)="paginationPrevPage()"
+    [disabled]="currentPage === 1"
+  >
+    Предыдущая
+  </button>
+  <span>Страница {{ currentPage }} </span>
+  <button class="pagination-button" (click)="paginationNextPage()">
+    Следующая
+  </button>
+</div>
