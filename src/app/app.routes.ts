@@ -1,10 +1,10 @@
 import { ApplicationConfig, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FirstPageComponent } from './first-page/first-page.component';
-import { SecondPageComponent } from './second-page/second-page';
-import { TretiaPageComponent } from './tretia-page/tretia-page.component';
+import { FirstPageComponent } from './pages/first-page/first-page.component';
+import { SecondPageComponent } from './pages/second-page/second-page';
+import { TretiaPageComponent } from './pages/tretia-page/tretia-page.component';
 import { provideHttpClient } from '@angular/common/http';
-import { Metering_devices } from './metering_devices/metering_devices';
+import { Metering_devices } from './pages/metering_devices/metering_devices';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,5 +40,3 @@ export const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-
-// Убедитесь, что НЕТ дублирования `routes`!
