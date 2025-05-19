@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Api_metering_devises } from '../../../api/api_metering_devises';
+import { Api_metering_devises } from '../../../api/api_metering_devises'; // interface iDevice {
 
-interface iDevice {
-  id: number;
-  name: string;
-  last_active?: number;
-}
+// interface iDevice {
+//   id: number;
+//   name: string;
+//   last_active?: number;
+// }
 
 @Component({
   selector: 'app-metering-devices-pagination',
@@ -17,9 +17,14 @@ interface iDevice {
 export class MeteringDevicesPaginationComponent {
   currentPage: number = 1;
 
-  constructor(private apiService: Api_metering_devises) {}
+  totalPages: number = 0;
+
+  constructor(protected apiService: Api_metering_devises) {}
 
   ngOnInit(): void {
+    this.apiService.lastPage$.subscribe((lastPage) => {
+      this.totalPages = lastPage; // Обновляем значение при изменении
+    });
     this.apiService.tableDevices(this.currentPage);
   }
 

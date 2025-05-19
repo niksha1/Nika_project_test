@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { DateTime } from 'luxon';
 
@@ -7,11 +7,13 @@ interface iDevice {
   id: number;
   name: string;
   last_active?: number;
+  total: number;
 }
 
 interface iMeteringDevicesResponse {
   data: iDevice[];
   last_page: number;
+  total: number;
 }
 
 interface iApiResponse {
@@ -50,9 +52,13 @@ const defaultBody: iBodyGetMeteringDevice = {
   providedIn: 'root',
 })
 export class Api_metering_devises {
+  private lastPageSubject = new BehaviorSubject<number>(0); // Инициализируем с 0
+  public lastPage$ = this.lastPageSubject.asObservable();
+
   private apiUrl = 'https://core.nekta.cloud/api/device/metering_devices';
   devices: iDevice[] = [];
   currentPage: number = 1;
+
   sortField: string = 'id';
   sort: 'asc' | 'desc' = 'desc';
 
@@ -78,6 +84,8 @@ export class Api_metering_devises {
       sort: this.sort,
     }).subscribe({
       next: (response: any) => {
+        const lastPage = response.data.metering_devices.last_page;
+        this.lastPageSubject.next(lastPage); // Отправляем новое значение
         this.devices = response.data.metering_devices.data.map(
           (device: iDevice) => ({
             ...device,
