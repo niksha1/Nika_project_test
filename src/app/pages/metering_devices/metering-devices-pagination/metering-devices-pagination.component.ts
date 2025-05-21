@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { Api_metering_devises } from '../../../api/api_metering_devises'; // interface iDevice {
+import { Api_metering_devises } from '../../../api/api_metering_devises';
+import { AsyncPipe } from '@angular/common';
+import { of } from 'rxjs'; // interface iDevice {
 
 // interface iDevice {
 //   id: number;
@@ -9,7 +11,7 @@ import { Api_metering_devises } from '../../../api/api_metering_devises'; // int
 
 @Component({
   selector: 'app-metering-devices-pagination',
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './metering-devices-pagination.component.html',
   standalone: true,
   styleUrl: './metering-devices-pagination.component.css',
@@ -17,15 +19,13 @@ import { Api_metering_devises } from '../../../api/api_metering_devises'; // int
 export class MeteringDevicesPaginationComponent {
   currentPage: number = 1;
 
-  totalPages: number = 0;
-
   constructor(protected apiService: Api_metering_devises) {}
 
+  last_page = of(0);
+
   ngOnInit(): void {
-    this.apiService.lastPage$.subscribe((lastPage) => {
-      this.totalPages = lastPage; // Обновляем значение при изменении
-    });
     this.apiService.tableDevices(this.currentPage);
+    this.last_page = this.apiService.lastPage$;
   }
 
   paginationNextPage(): void {

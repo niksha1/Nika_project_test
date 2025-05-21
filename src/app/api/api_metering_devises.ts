@@ -16,12 +16,6 @@ interface iMeteringDevicesResponse {
   total: number;
 }
 
-interface iApiResponse {
-  data: {
-    metering_devices: iMeteringDevicesResponse;
-  };
-}
-
 interface iBodyGetMeteringDevice {
   page: number;
   last_page: number;
@@ -52,8 +46,8 @@ const defaultBody: iBodyGetMeteringDevice = {
   providedIn: 'root',
 })
 export class Api_metering_devises {
-  private lastPageSubject = new BehaviorSubject<number>(0); // Инициализируем с 0
-  public lastPage$ = this.lastPageSubject.asObservable();
+  public lastPage: number = 0;
+  public lastPage$ = new BehaviorSubject<number>(0);
 
   private apiUrl = 'https://core.nekta.cloud/api/device/metering_devices';
   devices: iDevice[] = [];
@@ -64,6 +58,16 @@ export class Api_metering_devises {
 
   constructor(private http: HttpClient) {}
 
+  private currentSearchString: string = ''; // Обычная переменная для хранения текущего значения
+  private searchStringSubject = new BehaviorSubject<string>(''); // Для реактивных подписок
+
+  setSearchString(search: string) {
+    this.currentSearchString = search;
+    this.searchStringSubject.next(search);
+    this.tableDevices(1); // Сбрасываем на первую страницу при новом поиске
+    console.log(this.searchStringSubject);
+  }
+
   getDevices(params: Partial<iBodyGetMeteringDevice> = {}): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -72,6 +76,7 @@ export class Api_metering_devises {
     const body: iBodyGetMeteringDevice = {
       ...defaultBody,
       ...params,
+      search_string: this.currentSearchString || null,
     };
     return this.http.post(this.apiUrl, body, { headers });
   }
@@ -85,7 +90,7 @@ export class Api_metering_devises {
     }).subscribe({
       next: (response: any) => {
         const lastPage = response.data.metering_devices.last_page;
-        this.lastPageSubject.next(lastPage); // Отправляем новое значение
+        this.lastPage$.next(lastPage);
         this.devices = response.data.metering_devices.data.map(
           (device: iDevice) => ({
             ...device,

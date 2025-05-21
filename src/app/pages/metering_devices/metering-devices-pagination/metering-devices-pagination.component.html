@@ -6,7 +6,8 @@
   >
     Предыдущая
   </button>
-  <span>Страница {{ currentPage }} из {{ totalPages }}</span>
+
+  <span>Страница {{ currentPage }} из {{ last_page | async }}</span>
   <button class="pagination-button" (click)="paginationNextPage()">
     Следующая
   </button>

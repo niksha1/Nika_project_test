@@ -4,12 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Api_metering_devises } from '../../api/api_metering_devises';
 import { MeteringDevicesPaginationComponent } from './metering-devices-pagination/metering-devices-pagination.component';
-
-interface iDevice {
-  id: number;
-  name: string;
-  last_active?: number;
-}
+import { MeteringDevicesSearch } from './metering_devices_search/metering-devices-search';
 
 @Component({
   selector: 'app_metering_devices',
@@ -19,6 +14,7 @@ interface iDevice {
     RouterModule,
     ReactiveFormsModule,
     MeteringDevicesPaginationComponent,
+    MeteringDevicesSearch,
   ],
   templateUrl: './metering_devices.html',
   styleUrls: ['./metering_devices.css'],
