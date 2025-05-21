@@ -25,26 +25,32 @@ import { MeteringDevicesSearch } from './metering_devices_search/metering-device
 export class Metering_devices {
   currentPage: number = 1;
   sortField: string = 'id';
-  sort: 'asc' | 'desc' = 'desc';
+  sortDirection: 'asc' | 'desc' = 'desc';
+  sortStates: { [key: string]: 'asc' | 'desc' } = {};
 
-  constructor(public apiService: Api_metering_devises) {}
+  constructor(public apiService: Api_metering_devises) {
+    this.sortStates = {
+      id: 'desc',
+      name: 'asc',
+      last_active: 'desc',
+    };
+  }
 
   ngOnInit(): void {
     this.apiService.tableDevices();
   }
 
   sortBy(field: string): void {
-    if (this.sortField === field) {
-      //this.apiService.sortField = field;
-      this.apiService.sort = this.sort === 'asc' ? 'desc' : 'asc';
-      console.log(field);
+    if (this.sortField !== field) {
+      this.sortField = field;
+      this.sortDirection = this.sortStates[field];
     } else {
-      //this.apiService.sortField = field;
-      this.sort = 'asc';
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+      this.sortStates[field] = this.sortDirection;
     }
     this.apiService.sortField = field;
-    this.currentPage = 1; // Сбрасываем страницу
+    this.currentPage = 1;
     this.apiService.tableDevices();
-    //console.log(field);
+    this.apiService.sort = this.sortDirection;
   }
 }

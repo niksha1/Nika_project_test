@@ -2,41 +2,45 @@
 <div class="table-container">
   <table>
     <thead>
-      <tr>
-        <th
-          (click)="sortBy('id')"
-          class="sortable"
-          [ngClass]="{ 'sorted': sortField === 'id' }"
-        >
-          ID
-          <span
-            *ngIf="sortField === 'id'"
-            [ngClass]="sort === 'asc' ? 'arrow-up' : 'arrow-down'"
-          ></span>
-        </th>
-        <th
-          (click)="sortBy('name')"
-          class="sortable"
-          [ngClass]="{ 'sorted': sortField === 'name' }"
-        >
-          Имя
-          <span
-            *ngIf="sortField === 'name'"
-            [ngClass]="sort === 'asc' ? 'arrow-up' : 'arrow-down'"
-          ></span>
-        </th>
-        <th
-          (click)="sortBy('last_active')"
-          class="sortable"
-          [ngClass]="{ 'sorted': sortField === 'last_active' }"
-        >
-          Время последней активности
-          <span
-            *ngIf="sortField === 'last_active'"
-            [ngClass]="sort === 'asc' ? 'arrow-up' : 'arrow-down'"
-          ></span>
-        </th>
-      </tr>
+      <th
+        (click)="sortBy('id')"
+        class="sortable"
+        [ngClass]="{ 'sorted': sortField === 'id' }"
+      >
+        ID
+        <span class="sort-icons">
+          <i
+            class="icon-arrow-up"
+            [ngClass]="{ 'active': sortField === 'id' && sortDirection === 'asc' }"
+          ></i>
+          <i
+            class="icon-arrow-down"
+            [ngClass]="{ 'active': sortField === 'id' && sortDirection === 'desc' }"
+          ></i>
+        </span>
+      </th>
+      <th
+        (click)="sortBy('name')"
+        class="sortable"
+        [ngClass]="{ 'sorted': sortField === 'name' }"
+      >
+        Имя
+        <span
+          *ngIf="sortField === 'name'"
+          [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"
+        ></span>
+      </th>
+      <th
+        (click)="sortBy('last_active')"
+        class="sortable"
+        [ngClass]="{ 'sorted': sortField === 'last_active' }"
+      >
+        Время последней активности
+        <span
+          *ngIf="sortField === 'last_active'"
+          [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"
+        ></span>
+      </th>
     </thead>
     <tbody>
       <tr *ngFor="let item of apiService.devices">

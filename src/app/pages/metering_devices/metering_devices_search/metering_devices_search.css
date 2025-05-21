@@ -11,7 +11,7 @@ input {
   border: 2px solid #7ba7ab;
   border-radius: 5px;
   outline: none;
-  background: #f9f0da;
+  background: #ffffff;
   color: #9e9c9c;
 }
 
@@ -22,7 +22,7 @@ button {
   width: 42px;
   height: 42px;
   border: none;
-  background: #7ba7ab;
+  background: #b8d9dc;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
 }
@@ -31,5 +31,56 @@ button:before {
   content: "\f002";
   font-family: FontAwesome;
   font-size: 16px;
-  color: #f9f0da;
+  color: #d2f5ee;
+}
+
+.sortable {
+  cursor: pointer;
+  position: relative;
+  padding-right: 30px;
+  user-select: none;
+}
+
+.sort-icons {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.icon-arrow-up,
+.icon-arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  opacity: 0.3;
+  transition:
+    opacity 0.2s,
+    border-color 0.2s;
+}
+
+.icon-arrow-up {
+  border-bottom: 5px solid #333;
+}
+
+.icon-arrow-down {
+  border-top: 5px solid #333;
+}
+
+/* Активные стрелки */
+.icon-arrow-up.active,
+.icon-arrow-down.active {
+  opacity: 1;
+  border-bottom-color: #007bff;
+  border-top-color: #007bff;
+}
+
+/* Неактивные стрелки при наведении */
+.sortable:hover .icon-arrow-up:not(.active),
+.sortable:hover .icon-arrow-down:not(.active) {
+  opacity: 0.6;
 }
